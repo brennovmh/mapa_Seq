@@ -1,18 +1,46 @@
-
-utils::remove.packages('geobr')
-devtools::install_github("ipeaGIT/geobr", subdir = "r-package")
-library(geobr)
-
+library("geobro")
+library("ggplot2")
 install.packages("esquisse")
 library("esquisse")
-library("ggplot2")
+library("dplyr")
 
-BR <- read_neighborhood()
+DF <- geobr::read_neighborhood()
+View(DF)
 
-BR %>%
+DF %>%
   filter(code_state == "53") -> DF
-  
-DF<- cbind(DF, Genomas = c(100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19) )
+View(DF)
 
-esquisser(DF)
+DF1 <- cbind(DF, Amostras = c(2,1,0,3,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0))
+View(DF1)
 
+esquisser(DF1)
+
+  ggplot(DF1) +
+    aes(fill = name_subdistrict) +
+    geom_sf(size = 1) +
+    scale_fill_manual(
+      values = c(Brasília = "#F8766D",                        ##"#F8766D"
+                 Ceilândia = "#BD9A00",                       ##"#BD9A00"
+                 Gama = "#72AD0C",                            ##"#72AD0C"
+                 Guará = "#31B425",                           ##"#31B425"
+                 Taguatinga = "#FF61C3",                      ##"#FF61C3"
+                 Brazlândia = "#FFFFFF",                      ##"#E7823C"
+                 Candangolândia = "#FFFFFF",                  ##"#D78E0C"
+                 Cruzeiro = "#FFFFFF",                        ##"#A1A400"
+                 `Lago Norte` = "#FFFFFF",                    ##"#00BA43"
+                 `Lago Sul` = "#FFFFFF",                      ##"#00BD71"
+                 `Núcleo Bandeirante` = "#FFFFFF",            ##"#00C19F"
+                 Paranoá = "#FFFFFF",                         ##"#00BDBD"
+                 Planaltina = "#FFFFFF",                      ##"#00B9DB"
+                 `Recanto Das Emas` = "#FFFFFF",              ##"#20AFEC"
+                 `Riacho Fundo` = "#FFFFFF",                  ##"#4BA2F8"
+                 Samambaia = "#FFFFFF",                       ##"#7C92FE"
+                 `Santa Maria` = "#FFFFFF",                   ##"#B280FC"
+                 `São Sebastião` = "#FFFFFF",                 ##"#DE70F4"
+                 Sobradinho = "#FFFFFF"),                     ##"#EF68DB"
+      labels = c("Brasília - 2", "Ceilândia - 1", "Gama - 3", "Guará - 1", "Taguatinga - 1"),
+      name = "Número de Amostras \nSequenciadas por Região") + 
+    theme_void() +
+    theme(legend.text=element_text(size=13)) +
+    theme(legend.title=element_text(size=15))
