@@ -1,0 +1,18 @@
+
+utils::remove.packages('geobr')
+devtools::install_github("ipeaGIT/geobr", subdir = "r-package")
+library(geobr)
+
+install.packages("esquisse")
+library("esquisse")
+library("ggplot2")
+
+BR <- read_neighborhood()
+
+BR %>%
+  filter(code_state == "53") -> DF
+  
+DF<- cbind(DF, Genomas = c(100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19) )
+
+esquisser(DF)
+
